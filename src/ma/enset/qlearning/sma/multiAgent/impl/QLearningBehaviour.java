@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class QLearningBehaviour extends Behaviour {
+    private int agentActionsCount=0;
     private boolean finished = false;
     private final double ALPHA = 0.1;
     private final double GAMMA = 0.9;
@@ -35,6 +36,7 @@ public class QLearningBehaviour extends Behaviour {
     public void resetState() {
         state_x = 2;
         state_y = 0;
+        agentActionsCount=0;
     }
 
     private void recordStateAction(int state, int action) {
@@ -59,6 +61,9 @@ public class QLearningBehaviour extends Behaviour {
             }
             iter++;
         }
+
+        // Afficher le nombre d'actions effectuées par l'agent
+        System.out.println("Agent " + myAgent.getLocalName() + " Actions Count: " + agentActionsCount);
 
         // Envoyer les résultats au MainAgent
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
@@ -94,6 +99,7 @@ public class QLearningBehaviour extends Behaviour {
     private int executeAction(int actIndex) {
         state_x = Math.max(0, Math.min(actions[actIndex][0] + state_x, GRID_SIZE - 1));
         state_y = Math.max(0, Math.min(actions[actIndex][1] + state_y, GRID_SIZE - 1));
+        agentActionsCount++;
         return state_x * GRID_SIZE + state_y;
     }
 
