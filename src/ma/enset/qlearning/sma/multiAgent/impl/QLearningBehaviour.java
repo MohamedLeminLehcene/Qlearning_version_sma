@@ -10,12 +10,6 @@ import java.util.Random;
 
 public class QLearningBehaviour extends Behaviour {
     private int agentActionsCount=0;
-    private boolean finished = false;
-    private final double ALPHA = 0.1;
-    private final double GAMMA = 0.9;
-    private final int MAX_EPOCH = 20000;
-    private final int GRID_SIZE = 3;
-    private final int ACTION_SIZE = 4;
     // Ajouter une liste pour stocker les états et les actions
     private List<String> stateActionList = new ArrayList<>();
     private final int[][] grid = {
@@ -23,7 +17,7 @@ public class QLearningBehaviour extends Behaviour {
             {0, -1, 0},
             {0, 0, 0}
     };
-    private final double[][] qTable = new double[GRID_SIZE * GRID_SIZE][ACTION_SIZE];
+    private final double[][] qTable = new double[QLearningUtils.GRID_SIZE * QLearningUtils.GRID_SIZE][QLearningUtils.ACTION_SIZE];
     private final int[][] actions = {
             {0, -1},  // gauche
             {0, 1},   // droit
@@ -40,24 +34,24 @@ public class QLearningBehaviour extends Behaviour {
     }
 
     private void recordStateAction(int state, int action) {
-        int state_x = state / GRID_SIZE;
-        int state_y = state % GRID_SIZE;
+        int state_x = state / QLearningUtils.GRID_SIZE;
+        int state_y = state % QLearningUtils.GRID_SIZE;
         stateActionList.add("State: " + state + " action: " + action);
     }
 
     public void action() {
         int iter = 0;
-        while (iter < MAX_EPOCH) {
+        while (iter < QLearningUtils.MAX_EPOCH) {
             resetState();
             stateActionList.clear(); // Réinitialiser la liste des états et actions
             while (!finished()) {
-                int currentState = state_x * GRID_SIZE + state_y;
+                int currentState = state_x * QLearningUtils.GRID_SIZE + state_y;
                 int act = chooseAction(0.4);
                 recordStateAction(currentState, act); // Enregistrer l'état et l'action
                 int nextState = executeAction(act);
                 int act1 = chooseAction(0);
 
-                qTable[currentState][act] = qTable[currentState][act] + ALPHA * (grid[state_x][state_y] + GAMMA * qTable[nextState][act1] - qTable[currentState][act]);
+                qTable[currentState][act] = qTable[currentState][act] + QLearningUtils.ALPHA * (grid[state_x][state_y] + QLearningUtils.GAMMA * qTable[nextState][act1] - qTable[currentState][act]);
             }
             iter++;
         }
@@ -70,11 +64,11 @@ public class QLearningBehaviour extends Behaviour {
         message.setContent(formatQTable(myAgent.getLocalName(), qTable, stateActionList));
         message.addReceiver(new AID("MainAgentN", AID.ISLOCALNAME));
         myAgent.send(message);
-        finished = true;
+        QLearningUtils.FINISHED = true;
     }
 
     public boolean done() {
-        return finished;
+        return QLearningUtils.FINISHED;
     }
 
     private int chooseAction(double eps) {
@@ -83,10 +77,10 @@ public class QLearningBehaviour extends Behaviour {
         int act = 0;
 
         if (rnd.nextDouble() < eps) {
-            act = rnd.nextInt(ACTION_SIZE);
+            act = rnd.nextInt(QLearningUtils.ACTION_SIZE);
         } else {
-            int st = state_x * GRID_SIZE + state_y;
-            for (int i = 0; i < ACTION_SIZE; i++) {
+            int st = state_x * QLearningUtils.GRID_SIZE + state_y;
+            for (int i = 0; i < QLearningUtils.ACTION_SIZE; i++) {
                 if (qTable[st][i] > bestQ) {
                     bestQ = qTable[st][i];
                     act = i;
@@ -97,10 +91,10 @@ public class QLearningBehaviour extends Behaviour {
     }
 
     private int executeAction(int actIndex) {
-        state_x = Math.max(0, Math.min(actions[actIndex][0] + state_x, GRID_SIZE - 1));
-        state_y = Math.max(0, Math.min(actions[actIndex][1] + state_y, GRID_SIZE - 1));
+        state_x = Math.max(0, Math.min(actions[actIndex][0] + state_x, QLearningUtils.GRID_SIZE - 1));
+        state_y = Math.max(0, Math.min(actions[actIndex][1] + state_y, QLearningUtils.GRID_SIZE - 1));
         agentActionsCount++;
-        return state_x * GRID_SIZE + state_y;
+        return state_x * QLearningUtils.GRID_SIZE + state_y;
     }
 
     private boolean finished() {
