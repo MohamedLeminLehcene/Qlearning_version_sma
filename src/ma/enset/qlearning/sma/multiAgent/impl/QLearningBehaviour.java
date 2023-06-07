@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class QLearningBehaviour extends Behaviour {
+    StringBuilder sb = new StringBuilder();
     private int agentActionsCount=0;
     // Ajouter une liste pour stocker les états et les actions
     private List<String> stateActionList = new ArrayList<>();
@@ -57,7 +58,11 @@ public class QLearningBehaviour extends Behaviour {
         }
 
         // Afficher le nombre d'actions effectuées par l'agent
+        sb.append("Agent : "+myAgent.getLocalName() +" Actions count : "+agentActionsCount+" \n");
+        /*
+        System.out.println("Bate");
         System.out.println("Agent " + myAgent.getLocalName() + " Actions Count: " + agentActionsCount);
+         */
 
         // Envoyer les résultats au MainAgent
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
@@ -102,7 +107,7 @@ public class QLearningBehaviour extends Behaviour {
     }
 
     private String formatQTable(String agentName, double[][] qTable, List<String> stateActionList) {
-        StringBuilder sb = new StringBuilder();
+
         sb.append("******  q table ******\n");
         for (int i = 0; i < qTable.length; i++) {
             sb.append("[");
