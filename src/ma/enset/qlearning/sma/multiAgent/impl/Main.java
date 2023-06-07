@@ -77,7 +77,7 @@ public class Main  extends Application {
 
         Scene scene = new Scene(root,800,600);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("QLearning Application");
+        primaryStage.setTitle("Algorithme QLearning avec Systéme Multi Agents");
         primaryStage.show();
 
 
