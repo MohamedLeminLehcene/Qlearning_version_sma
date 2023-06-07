@@ -25,6 +25,7 @@ public class QLearningBehaviour extends Behaviour {
             {1, 0},   // bas
             {-1, 0}   // haut
     };
+
     private int state_x;
     private int state_y;
 
@@ -57,8 +58,9 @@ public class QLearningBehaviour extends Behaviour {
             iter++;
         }
 
+
         // Afficher le nombre d'actions effectuées par l'agent
-        sb.append("Agent : "+myAgent.getLocalName() +" Actions count : "+agentActionsCount+" \n");
+        sb.append("Agent : "+myAgent.getLocalName() +" Actions count => "+agentActionsCount+" \n");
         /*
         System.out.println("Bate");
         System.out.println("Agent " + myAgent.getLocalName() + " Actions Count: " + agentActionsCount);
