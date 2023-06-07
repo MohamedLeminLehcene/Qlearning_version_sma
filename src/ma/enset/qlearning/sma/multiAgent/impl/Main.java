@@ -6,17 +6,20 @@ import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.ControllerException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main  extends Application {
+    private MainAgentN mainAgentN;
     private Button runButton;
     private ObservableList<String> data = FXCollections.observableArrayList();
 
@@ -63,9 +66,12 @@ public class Main  extends Application {
         hBox.getChildren().add(buttonEnvoie);
         root.setBottom(hBox);
 
+
+        ListView<String> listView = new ListView<>(data);
         VBox vBox= new VBox();
         vBox.setSpacing(10);
         vBox.setPadding(new Insets(10));
+        vBox.getChildren().addAll(listView);
 
         root.setCenter(vBox);
 
@@ -85,11 +91,11 @@ public class Main  extends Application {
 
     }
 
-    public void startContent() throws ControllerException{
+    public void startContent() throws Exception{
         Runtime runtime = Runtime.instance();Profile mainAgentProfile = new ProfileImpl();
         AgentContainer mainAgentContainer = runtime.createMainContainer(mainAgentProfile);
         try {
-            AgentController mainAgentController = mainAgentContainer.createNewAgent("MainAgentN",MainAgentN.class.getName(), null);
+            AgentController mainAgentController = mainAgentContainer.createNewAgent("MainAgentN",MainAgentN.class.getName(), new Object[]{this});
             mainAgentController.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -110,5 +116,15 @@ public class Main  extends Application {
         }
     }
      */
+
+    public void showResult(String result){
+        Platform.runLater(()->{
+            data.add(result);
+        });
+    }
+
+    public void setMainAgentN(MainAgentN mainAgentN) {
+        this.mainAgentN = mainAgentN;
+    }
 }
 
