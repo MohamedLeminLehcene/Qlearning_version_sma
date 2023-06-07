@@ -32,7 +32,7 @@ public class Main  extends Application {
 
 
         /*
-        primaryStage.setTitle("QLearning Application");
+        primaryStage.setTitle("Algorithme QLearning avec Systéme Multi Agents");
 
         runButton = new Button("Run QLearning");
         runButton.setOnAction((event -> {
