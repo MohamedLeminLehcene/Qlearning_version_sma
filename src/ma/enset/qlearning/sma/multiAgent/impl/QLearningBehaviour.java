@@ -111,8 +111,8 @@ public class QLearningBehaviour extends Behaviour {
             }
             sb.append("]\n");
         }
-        sb.append("\n");
 
+        sb.append("\n");
         sb.append("Agent: ").append(agentName).append("\n");
         sb.append("States and Actions:\n");
         for (String stateAction : stateActionList) {
@@ -122,8 +122,6 @@ public class QLearningBehaviour extends Behaviour {
 
         return sb.toString();
     }
-
-
 
     private AID getMainAgentAID() {
         return new AID("MainAgent", AID.ISLOCALNAME);
