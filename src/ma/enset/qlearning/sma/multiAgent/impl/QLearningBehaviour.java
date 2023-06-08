@@ -29,6 +29,7 @@ public class QLearningBehaviour extends Behaviour {
     private int state_x;
     private int state_y;
 
+    // Réinitialise l'état de l'agent
     public void resetState() {
         state_x = 2;
         state_y = 0;
@@ -36,12 +37,14 @@ public class QLearningBehaviour extends Behaviour {
     }
 
     private void recordStateAction(int state, int action) {
+        // Enregistre l'état et l'action dans une liste
         int state_x = state / QLearningUtils.GRID_SIZE;
         int state_y = state % QLearningUtils.GRID_SIZE;
         stateActionList.add("State: " + state + " action: " + action);
     }
 
     public void action() {
+        // Logique du comportement de Q-learning
         int iter = 0;
         while (iter < QLearningUtils.MAX_EPOCH) {
             resetState();
@@ -74,10 +77,12 @@ public class QLearningBehaviour extends Behaviour {
         QLearningUtils.FINISHED = true;
     }
 
+    // Indique si le comportement est terminé
     public boolean done() {
         return QLearningUtils.FINISHED;
     }
 
+    // Choisi une action selon la politique epsilon-greedy
     private int chooseAction(double eps) {
         Random rnd = new Random();
         double bestQ = 0;
@@ -97,6 +102,7 @@ public class QLearningBehaviour extends Behaviour {
         return act;
     }
 
+    // Exécute l'action choisie et met à jour l'état de l'agent
     private int executeAction(int actIndex) {
         state_x = Math.max(0, Math.min(actions[actIndex][0] + state_x, QLearningUtils.GRID_SIZE - 1));
         state_y = Math.max(0, Math.min(actions[actIndex][1] + state_y, QLearningUtils.GRID_SIZE - 1));
@@ -104,10 +110,12 @@ public class QLearningBehaviour extends Behaviour {
         return state_x * QLearningUtils.GRID_SIZE + state_y;
     }
 
+    // Indique si l'agent a atteint un état final
     private boolean finished() {
         return grid[state_x][state_y] == 1;
     }
 
+    // Formate la table Q et les états-actions dans une chaîne de caractères
     private String formatQTable(String agentName, double[][] qTable, List<String> stateActionList) {
 
         sb.append("******  q table ******\n");
@@ -130,6 +138,7 @@ public class QLearningBehaviour extends Behaviour {
         return sb.toString();
     }
 
+    // Récupère l'identifiant de l'agent principal (MainAgent)
     private AID getMainAgentAID() {
         return new AID("MainAgent", AID.ISLOCALNAME);
     }
