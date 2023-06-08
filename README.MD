@@ -462,3 +462,74 @@ public class QLearningBehaviour extends Behaviour {
     }
 }
 </pre>
+
+<h4>Classe QLearningUtils : </h4
+<pre>
+package ma.enset.qlearning.sma.multiAgent.impl;
+
+import com.sun.org.apache.bcel.internal.generic.FALOAD;
+
+public class QLearningUtils {
+    public static boolean FINISHED=false;
+    public static final  double ALPHA=0.1;
+    public static final double GAMMA=0.9;
+    public static final int MAX_EPOCH=20000;
+    public static final int GRID_SIZE=3;
+    public static final int ACTION_SIZE=4;
+
+/*
+    //private boolean finished = false;
+    private final double ALPHA = 0.1;
+    private final double GAMMA = 0.9;
+    private final int MAX_EPOCH = 20000;
+    private final int GRID_SIZE = 3;
+    private final int ACTION_SIZE = 4;
+ */
+
+}
+
+
+</pre>
+
+
+<h4>Classe Agent 1 : </h4>
+<pre>
+
+package ma.enset.qlearning.sma.multiAgent.impl;// Agent1.java
+import jade.core.Agent;
+
+public class Agent1 extends Agent {
+    protected void setup() {
+        // Code spécifique à l'agent 1
+        addBehaviour(new QLearningBehaviour());
+        setupAgent("Agent1");
+    }
+
+    public void setupAgent(String agentName) {
+        System.out.println(agentName + ": " + getLocalName() + " started.");
+        // Additional setup code for Agent1
+    }
+}
+
+</pre>
+
+<h4>Classe Agent 2 : </h4>
+
+<pre>
+package ma.enset.qlearning.sma.multiAgent.impl;// Agent2.java
+import jade.core.Agent;
+
+public class Agent2 extends Agent {
+    protected void setup() {
+        // Code spécifique à l'agent 2
+        addBehaviour(new QLearningBehaviour());
+        setupAgent("Agent2");
+    }
+
+    public void setupAgent(String agentName) {
+        System.out.println(agentName + ": " + getLocalName() + " started.");
+        // Additional setup code for Agent2
+    }
+}
+
+</pre>
