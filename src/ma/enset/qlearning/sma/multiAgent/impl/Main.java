@@ -18,15 +18,20 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+// La classe Main est la classe principale de l'application JavaFX qui lance l'interface utilisateur et gère la communication avec l'agent principal MainAgentN.
 public class Main  extends Application {
+    // Référence vers l'agent principal MainAgentN
     private MainAgentN mainAgentN;
+    // Bouton pour exécuter l'algorithme QLearning
     private Button runButton;
+    // Liste observable pour afficher les résultats
     private ObservableList<String> data = FXCollections.observableArrayList();
-
+    // Méthode principale qui lance l'application JavaFX
     public static void main(String[] args){
         launch(args);
     }
 
+    // Méthode start() qui crée l'interface utilisateur
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -51,7 +56,7 @@ public class Main  extends Application {
          */
 
 
-        //Interface JavaFX
+        // Création des composants de l'interface utilisateur
         BorderPane root = new BorderPane();
 
         Button buttonEnvoie =  new Button("Execute Algorithme QLearning Avec SMA");
@@ -80,7 +85,7 @@ public class Main  extends Application {
         primaryStage.setTitle("QLearning Application");
         primaryStage.show();
 
-
+// Lorsque le bouton "buttonEnvoie" est cliqué, la méthode startContent() est appelée
         buttonEnvoie.setOnAction((event -> {
             try {
                 startContent();
@@ -90,7 +95,7 @@ public class Main  extends Application {
         }));
 
     }
-
+    // Méthode qui exécute le contenu de l'application
     public void startContent() throws Exception{
         Runtime runtime = Runtime.instance();Profile mainAgentProfile = new ProfileImpl();
         AgentContainer mainAgentContainer = runtime.createMainContainer(mainAgentProfile);
@@ -116,13 +121,13 @@ public class Main  extends Application {
         }
     }
      */
-
+// Méthode pour afficher les résultats dans la liste observable "data"
     public void showResult(String result){
         Platform.runLater(()->{
             data.add(result);
         });
     }
-
+    // Méthode pour définir la référence vers l'agent principal MainAgentN
     public void setMainAgentN(MainAgentN mainAgentN) {
         this.mainAgentN = mainAgentN;
     }
