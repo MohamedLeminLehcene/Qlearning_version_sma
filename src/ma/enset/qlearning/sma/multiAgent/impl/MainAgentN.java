@@ -8,10 +8,12 @@ import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
 
+// La classe MainAgentN est un agent GUI (GuiAgent) qui coordonne l'exécution des agents Agent1 et Agent2.
 public class MainAgentN  extends GuiAgent {
     private static int countActionsOfAgentOne;
     private static int countActionsOfAgentTwo;
 
+    // Méthodes getter et setter pour le compteur d'actions de l'agent 1
     public static int getCountActionsOfAgentOne() {
         return countActionsOfAgentOne;
     }
@@ -19,7 +21,7 @@ public class MainAgentN  extends GuiAgent {
     public static void setCountActionsOfAgentOne(int countActionsOfAgentOne) {
         MainAgentN.countActionsOfAgentOne = countActionsOfAgentOne;
     }
-
+    // Méthodes getter et setter pour le compteur d'actions de l'agent 2
     public static int getCountActionsOfAgentTwo() {
         return countActionsOfAgentTwo;
     }
@@ -27,15 +29,21 @@ public class MainAgentN  extends GuiAgent {
     public static void setCountActionsOfAgentTwo(int countActionsOfAgentTwo) {
         MainAgentN.countActionsOfAgentTwo = countActionsOfAgentTwo;
     }
-
+    // Référence vers l'objet Main de l'interface utilisateur
     private Main main;
+    // Compteur de résultats de l'agent 1
     private int agent1ResultCount = 0;
+    // Compteur de résultats de l'agent 2
     private int agent2ResultCount = 0;
 
     protected void setup() {
+        // Récupérer l'objet Main passé en argument
         main = (Main)getArguments()[0];
+        // Définir cette instance de MainAgentN comme le MainAgentN de l'objet Main
         main.setMainAgentN(this);
+        // Ajouter le comportement de démarrage des agents Agent1 et Agent2
         addBehaviour(new StartAgentBehaviour());
+        // Ajouter le comportement de réception des résultats
         addBehaviour(new ReceiveResultBehaviour());
     }
 
@@ -44,7 +52,7 @@ public class MainAgentN  extends GuiAgent {
 
     }
 
-
+    // Comportement OneShot pour démarrer les agents Agent1 et Agent2
     private class StartAgentBehaviour extends OneShotBehaviour {
         public void action() {
             try {
@@ -61,6 +69,7 @@ public class MainAgentN  extends GuiAgent {
         }
     }
 
+    // Méthode utilitaire pour extraire la valeur d'un message
     public static String extractValue(String input) {
         String marker = "=>";
         int index = input.indexOf(marker);
@@ -74,11 +83,15 @@ public class MainAgentN  extends GuiAgent {
         return "";
     }
 
+    // Comportement cyclique pour recevoir les résultats des agents Agent1 et Agent2
     private class ReceiveResultBehaviour extends CyclicBehaviour {
         public void action() {
+            // Recevoir un message
             ACLMessage message = myAgent.receive();
             if (message != null) {
+                // Nom de l'agent qui a envoyé le message
                 String agentName = message.getSender().getLocalName();
+                // Contenu du message
                 String result = message.getContent();
                // System.out.println(result);
                 if (agentName.equals("Agent1")) {
@@ -104,10 +117,10 @@ public class MainAgentN  extends GuiAgent {
 
                 // Vérifier si tous les résultats ont été reçus
                 if (agent1ResultCount == 1 && agent2ResultCount == 1) {
-
+// Afficher les compteurs d'actions des agents 1 et 2
                     System.out.println("agent count 1 : "+getCountActionsOfAgentOne());
                     System.out.println("agent count 2: "+getCountActionsOfAgentTwo());
-
+// Comparer les compteurs d'actions et afficher le meilleur agent
                     if(getCountActionsOfAgentOne()<getCountActionsOfAgentTwo()){
                         main.showResult("le meileur agent resut pour atteidre l'etat final(GOAL) est :  Agent1");
                     }
